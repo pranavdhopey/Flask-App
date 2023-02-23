@@ -9,7 +9,7 @@ pipeline {
   }
   environment {
     REGISTRY = "asia-south1-docker.pkg.dev"
-    GCP_PROJECT = 'searce-playground-v1'
+    GCP_PROJECT = '<My-Project-ID>'
   }
   
   stages {
