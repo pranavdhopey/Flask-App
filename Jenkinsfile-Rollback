@@ -1,0 +1,37 @@
+pipeline {
+  agent {
+    kubernetes{
+      label 'kubeagent'
+    }  
+  }
+  parameters {
+    string defaultValue: 'latest', description: 'Provide a Tag of Bug Free Docker Image ', name: 'IMAGE_TAG'
+  }
+  environment {
+    REGISTRY = "asia-south1-docker.pkg.dev"
+    GCP_PROJECT = 'searce-playground-v1'
+  }
+  
+  stages {
+    stage('Cloning Git') {
+      steps {
+        git branch: 'main', url: 'https://github.com/pranavdhopey/Flask-App.git'
+      }
+    }
+    stage('Update Manifest') {
+      steps{
+        script {     
+		  sh "sed -i 's|flask-app-image|$REGISTRY/$GCP_PROJECT/pranav-repo/flask-app:$IMAGE_TAG|' manifest/deployment.yaml"
+        }
+      }
+    }
+	stage('Deploy Manifest') {
+      steps{
+        script {    
+		  sh "kubectl apply -f manifest/namespace.yaml"
+		  sh "kubectl apply -f manifest/deployment.yaml -f manifest/service.yaml"
+        }
+      }
+    }
+  }
+}
