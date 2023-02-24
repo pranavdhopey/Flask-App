@@ -43,11 +43,11 @@ pipeline {
         }
       }
     }
-	stage('Deploy Manifest') {
+    stage('Deploy Manifest') {
       steps{
         script {    
-		  sh "kubectl apply -f manifest/namespace.yaml"
-		  sh "kubectl apply -f manifest/deployment.yaml -f manifest/service.yaml"
+	  sh "kubectl apply -f manifest/namespace.yaml"
+	  sh "kubectl apply -f manifest/deployment.yaml -f manifest/service.yaml"
         }
       }
     }
