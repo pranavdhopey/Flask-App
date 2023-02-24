@@ -10,6 +10,8 @@ pipeline {
   environment {
     REGISTRY = "asia-south1-docker.pkg.dev"
     GCP_PROJECT = '<My-Project-ID>'
+    REPOSITORY = "pranav-repo"
+    IMAGE_NAME = "flask-app"
   }
   
   stages {
@@ -21,7 +23,7 @@ pipeline {
     stage('Update Manifest') {
       steps{
         script {     
-		  sh "sed -i 's|flask-app-image|$REGISTRY/$GCP_PROJECT/pranav-repo/flask-app:$IMAGE_TAG|' manifest/deployment.yaml"
+		  sh "sed -i 's|flask-app-image|$REGISTRY/$GCP_PROJECT/$REPOSITORY/$IMAGE_NAME:$IMAGE_TAG|' manifest/deployment.yaml"
         }
       }
     }
