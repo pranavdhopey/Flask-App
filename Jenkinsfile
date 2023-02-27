@@ -30,8 +30,8 @@ pipeline {
       steps{
         script {
           def SHORT_SHA = sh(returnStdout: true, script: 'git rev-parse --short HEAD').trim()     
-		  sh "docker push $REGISTRY/$GCP_PROJECT/$REPOSITORY/$IMAGE_NAME:$SHORT_SHA"
-		  sh "docker push $REGISTRY/$GCP_PROJECT/$REPOSITORY/$IMAGE_NAME:latest"
+          sh "docker push $REGISTRY/$GCP_PROJECT/$REPOSITORY/$IMAGE_NAME:$SHORT_SHA"
+	  sh "docker push $REGISTRY/$GCP_PROJECT/$REPOSITORY/$IMAGE_NAME:latest"
         }
       }
     }
@@ -39,7 +39,7 @@ pipeline {
       steps{
         script {
           def SHORT_SHA = sh(returnStdout: true, script: 'git rev-parse --short HEAD').trim()     
-		  sh "sed -i 's|flask-app-image|$REGISTRY/$GCP_PROJECT/$REPOSITORY/$IMAGE_NAME:$SHORT_SHA|' manifest/deployment.yaml"
+	  sh "sed -i 's|flask-app-image|$REGISTRY/$GCP_PROJECT/$REPOSITORY/$IMAGE_NAME:$SHORT_SHA|' manifest/deployment.yaml"
         }
       }
     }
