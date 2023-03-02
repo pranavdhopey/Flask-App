@@ -51,5 +51,18 @@ pipeline {
         }
       }
     }
+    stage('Check deployment status') {
+      steps {
+      // Check deployment status using kubectl
+        script {
+          def output = sh(returnStdout: true, script: "kubectl get pod -n hello-world -o=jsonpath='{.items[*].status.containerStatuses[*].state}'")
+          if (output.contains("CrashLoopBackOff") || output.contains("Error")) { 
+             sh 'kubectl rollout undo deployment/hello-world-app -n hello-world' 
+          } else {
+             echo 'Deployment is Successful'
+          }
+        } 
+      }
+    }
   }
 }
