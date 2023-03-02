@@ -57,7 +57,7 @@ pipeline {
         script {
           def output = sh(returnStdout: true, script: "kubectl get pod -n hello-world -o=jsonpath='{.items[*].status.containerStatuses[*].state}'")
           if (output.contains("CrashLoopBackOff") || output.contains("Error")) { 
-             sh 'kubectl rollout undo deployment/hello-world-app -n hello-world' 
+             sh 'kubectl rollout undo deployment/flask-app -n app' 
           } else {
              echo 'Deployment is Successful'
           }
